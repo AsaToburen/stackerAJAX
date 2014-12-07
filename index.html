@@ -26,14 +26,19 @@
 				<input type="submit" value="Submit">
 			</form>
 			<h3>View the Top Answerers for a Tag</h3>
+		
 			<form class="inspiration-getter" onsubmit="return false;">
 				<input type="text" placeholder="e.g., jQuery" name="answerers" size="30"  required>
 				<input type="submit" value="Submit">
 			</form>
 		</div>
 		<div class="results-container">
-			<div class="search-results"></div>
-			<div class="results"></div>
+			<div class="search-results">
+	<!-- How many questions were returned?? -->		
+			</div>
+			<div class="results">
+	<!-- Info about individual questions -->	
+			</div>
 		</div>
 	</div>
 	<div class="templates hidden">
@@ -46,6 +51,15 @@
 				<dd class="viewed"></dd>
 			<dt>Asker</dt>
 				<dd class="asker"></dd>
+		</dl>
+		<dl class="result answerUser">
+			<dt>Answerer Name:</dt>
+				<dd class="name-text"><a href="" target="_blank"></a></dd>
+				<dd class="answerer-img"><img src=""></dd>
+			<dt>Post Count:</dt>
+				<dd class="post-count"></dd>
+			<dt>Reputation:</dt>
+				<dd class="reputation"></dd>
 		</dl>
 		<div class="error">
 			<p>Uh-oh! Something went wrong with your request. Here's what we know:</p>

@@ -6,12 +6,19 @@ $(document).ready( function() {
 		var tags = $(this).find("input[name='tags']").val();
 		getUnanswered(tags);
 	});
+	$('.inspiration-getter').submit( function(event){
+		// zero out results if previous search has run
+		$('.results').html('');
+		// get the value of the tags the user submitted
+		var answerers = $(this).find("input[name='answerers']").val();
+		getInspiration(answerers);
+	});
 });
+//////////////////////////
 
 // this function takes the question object returned by StackOverflow 
 // and creates new result to be appended to DOM
 var showQuestion = function(question) {
-	
 	// clone our result template code
 	var result = $('.templates .question').clone();
 	
@@ -41,7 +48,30 @@ var showQuestion = function(question) {
 	return result;
 };
 
+var showAnswerers = function(answerUser) {
+	// clone our result template code
+	var result = $('.templates .answerUser').clone();
+	
+	// Set the Answerer Name properties in result
+	var answererName = result.find('.name-text a');
+	answererName.attr('href', answerUser.user.link);
+	answererName.text(answerUser.user.display_name);
 
+	// set answerers post count asked property in result
+	var postCount = result.find('.post-count');
+	postCount.text(answerUser.post_count);
+
+	// set the reputation for answerer in result
+	var reputation = result.find('.reputation');
+	reputation.text(answerUser.user.reputation);
+
+	var userImage = result.find('.answerer-img img');
+	userImage.attr('src', answerUser.user.profile_image);
+
+	return result;
+};
+
+///////////////////////////
 // this function takes the results object from StackOverflow
 // and creates info about search results to be appended to DOM
 var showSearchResults = function(query, resultNum) {
@@ -87,6 +117,37 @@ var getUnanswered = function(tags) {
 		$('.search-results').append(errorElem);
 	});
 };
+
+var getInspiration = function(answerers) {
+
+	// the parameters we need to pass in our request to StackOverflow's API
+	var request = { tag: answerers,
+								site: 'stackoverflow',
+								period: 'all_time'};
+
+	var result = $.ajax({
+		url: "http://api.stackexchange.com/2.2/tags/{" + request.tag + "}/top-answerers/" + request.period,
+		data: request,
+		dataType: "jsonp",
+		type: "GET",
+		})
+
+	.done(function(result){
+
+		var searchResults = showSearchResults(request.tag, result.items.length);
+		$('.search-results').html(searchResults);
+
+		$.each(result.items, function(i, item) {
+			var answerUser = showAnswerers(item);
+			$('.results').append(answerUser);
+		});
+	})
+	.fail(function(jqXHR, error, errorThrown){
+		var errorElem = showError(error);
+		$('.search-results').append(errorElem);
+	});
+};
+
 
 
 

@@ -38,6 +38,16 @@
 	border: 1px solid black;
 	padding: 5px;
 	margin: 0 auto 1em auto;
+	overflow: auto;
+}
+.answerUser dt {
+	line-height: 2em;
+	margin-left: 1.5em;
+}
+
+.answerer-img {
+	float: right;
+	margin: -2em 1.5em 1em 0em ;
 }
 
 .error {
